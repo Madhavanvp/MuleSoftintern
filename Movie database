@@ -1,0 +1,33 @@
+import mysql.connector
+#Connection Establishment
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="madhavan@2001",
+  database="mydatabase"
+)
+
+#Creating Table Movie
+mycursor = mydb.cursor()
+mycursor.execute("create table Movies(Name varchar(30),actor varchar(30),actress varchar(30),yor integer(5),director varchar(30))")
+
+#inserting Values
+sql = "INSERT INTO Movies(Name,actor,actress,yor,director) VALUES (%s,%s,%s, %s,%s)"
+val = [("Kathi","Vijay","Samantha","2014","Murugadoss"),("Mankatha","Ajith","Trisha","2010","Prabhu"),("Minnalae","Madhavan","reemasan","2000","GVM"),("Nanban","Vijay","Illeana","2011","Shankar"),("Veeram","Ajith","Thamana","2015","Siva")]
+mycursor.executemany(sql,val)
+
+#Retrieving all rows from table
+query="SELECT * FROM Movies"
+mycursor.execute(query)
+result=mycursor.fetchall()
+for i in result:
+    print(i)
+    
+#Retrieving rows where actor name is 'Vijay'
+mycur=mydb.cursor()
+query1="SELECT * FROM Movies where actor='Vijay'"
+mycur.execute(query1)
+result1=mycur.fetchall()
+for j in result1:
+    print(j)
+mydb.commit()
